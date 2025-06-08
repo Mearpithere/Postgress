@@ -21,11 +21,20 @@ async function createUsersTable() {
 
 async function insertData() {
     try {
-        const res = await client.query(`
-            INSERT INTO users (username, password, email)
-            VALUES ('Arpit', 'Iarpit@10', 'warpit57@gmail.com')
-            RETURNING *
-        `)
+
+        const query = "INSERT INTO users (username, password, email) VALUES ($1, $2, $3) RETURNING *";
+        const values = ['Arpit', 'Iarpit@10', 'warpit57@gmail.com']
+        const res = await client.query(query, values);
+
+        // Uncomment the following lines if you want to insert data directly
+        // Note: The following lines are commented out to avoid duplicate inserts and SQL Injection risks
+        // Uncommenting these lines will insert the data directly into the database
+        // const res = await client.query(`
+        //     INSERT INTO users (username, password, email)
+        //     VALUES ('Arpit', 'Iarpit@10', 'warpit57@gmail.com')
+        //     RETURNING *
+        // `)
+        
         console.log("Data inserted successfully:", res.rows[0]);
     } catch (error) {
         console.error("Error inserting data:", error);
